@@ -1,0 +1,20 @@
+-- Crear la base de datos BDFitness
+CREATE DATABASE BDFitness;
+
+-- Seleccionar la base de datos para usarla
+USE BDFitness;
+
+-- Crear la tabla Usuario en la base de datos BDFitness
+CREATE TABLE Usuario (
+    id INT IDENTITY(1,1) PRIMARY KEY, 
+    correo VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    estado VARCHAR(10) NULL
+);
+
+-- Insertar datos en la tabla Usuario
+INSERT INTO Usuario (correo, password, estado)
+VALUES 
+('juan@gmail.com', '123','Activo'),
+('maria@gmail.com', '123','Activo'),
+('carlos@gmail.com', '123','Activo');
