@@ -18,3 +18,90 @@ VALUES
 ('juan@gmail.com', '123','Activo'),
 ('maria@gmail.com', '123','Activo'),
 ('carlos@gmail.com', '123','Activo');
+
+-- Crear la tabla de planes
+CREATE TABLE planes (
+    id INT PRIMARY KEY,
+    nombre TEXT,
+    duracion_meses INT,
+    entrenamientos_mes INT,
+    categoria TEXT,
+    precio NUMERIC,
+    dias_renovacion INT
+);
+
+-- Crear la tabla de clientes
+CREATE TABLE clientes (
+    id INT PRIMARY KEY,
+    nombre TEXT,
+    email TEXT,
+    telefono TEXT,
+    estado_membresia TEXT,
+    plan_id INT,
+    FOREIGN KEY (plan_id) REFERENCES planes(id)
+);
+
+-- Crear la tabla de sanciones
+CREATE TABLE sanciones (
+    id INT PRIMARY KEY,
+    cliente_id INT,
+    fecha_inicio DATETIME,
+    fecha_fin DATETIME,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+-- Crear la tabla de trainers
+CREATE TABLE trainers (
+    id INT PRIMARY KEY,
+    nombre TEXT,
+    especialidad TEXT
+);
+
+-- Crear la tabla de entrenamientos
+CREATE TABLE entrenamientos (
+    id INT PRIMARY KEY,
+    tipo TEXT,
+    ubicacion TEXT,
+    duracion TEXT,
+    max_participantes INT,
+    trainer_id INT,
+    fecha DATETIME,
+    FOREIGN KEY (trainer_id) REFERENCES trainers(id)
+);
+
+-- Crear la tabla de reservas
+CREATE TABLE reservas (
+    id INT PRIMARY KEY,
+    cliente_id INT,
+    entrenamiento_id INT,
+    fecha_reserva DATETIME,
+    estado TEXT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (entrenamiento_id) REFERENCES entrenamientos(id)
+);
+
+-- Crear la tabla de asistencias
+CREATE TABLE asistencias (
+    id INT PRIMARY KEY,
+    reserva_id INT,
+    asistencia INT,
+    FOREIGN KEY (reserva_id) REFERENCES reservas(id)
+);
+
+-- Crear la tabla de reportes
+CREATE TABLE reportes (
+    id INT PRIMARY KEY,
+    tipo TEXT,
+    contenido TEXT,
+    fecha DATETIME,
+    autor_id INT,
+    FOREIGN KEY (autor_id) REFERENCES clientes(id)
+);
+
+
+-- Insertando datos para Planes
+INSERT INTO planes (id, nombre, duracion_meses, entrenamientos_mes, categoria, precio, dias_renovacion)
+VALUES 
+(1, 'Plan Básico', 1, 8, 'Básico', 19.99, 30),
+(2, 'Plan Premium', 1, 12, 'Premium', 29.99, 30),
+(3, 'Plan Anual', 12, 8, 'Básico', 199.99, 365);
