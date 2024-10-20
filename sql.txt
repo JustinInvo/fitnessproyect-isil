@@ -4,12 +4,82 @@ CREATE DATABASE BDFitness;
 -- Seleccionar la base de datos para usarla
 USE BDFitness;
 
--- Crear la tabla Usuario en la base de datos BDFitness
 CREATE TABLE Usuario (
     id INT IDENTITY(1,1) PRIMARY KEY, 
     correo VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     estado VARCHAR(10) NULL
+);
+
+CREATE TABLE planes (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(255),
+    duracion_meses INT,
+    entrenamientos_mes INT,
+    categoria VARCHAR(255),
+    precio NUMERIC(10, 2),
+    dias_renovacion INT
+);
+
+CREATE TABLE clientes (
+    id INT PRIMARY KEY,
+    nombre TEXT,
+    email TEXT,
+    telefono TEXT,
+    estado_membresia TEXT,
+    plan_id INT,
+    FOREIGN KEY (plan_id) REFERENCES planes(id)
+);
+
+CREATE TABLE sanciones (
+    id INT PRIMARY KEY,
+    cliente_id INT,
+    fecha_inicio DATETIME,
+    fecha_fin DATETIME,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+CREATE TABLE trainers (
+    id INT PRIMARY KEY,
+    nombre TEXT,
+    especialidad TEXT
+);
+
+CREATE TABLE entrenamientos (
+    id INT PRIMARY KEY,
+    tipo TEXT,
+    ubicacion TEXT,
+    duracion TEXT,
+    max_participantes INT,
+    trainer_id INT,
+    fecha DATETIME,
+    FOREIGN KEY (trainer_id) REFERENCES trainers(id)
+);
+
+CREATE TABLE reservas (
+    id INT PRIMARY KEY,
+    cliente_id INT,
+    entrenamiento_id INT,
+    fecha_reserva DATETIME,
+    estado TEXT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (entrenamiento_id) REFERENCES entrenamientos(id)
+);
+
+CREATE TABLE asistencias (
+    id INT PRIMARY KEY,
+    reserva_id INT,
+    asistencia INT,
+    FOREIGN KEY (reserva_id) REFERENCES reservas(id)
+);
+
+CREATE TABLE reportes (
+    id INT PRIMARY KEY,
+    tipo TEXT,
+    contenido TEXT,
+    fecha DATETIME,
+    autor_id INT,
+    FOREIGN KEY (autor_id) REFERENCES clientes(id)
 );
 
 -- Insertar datos en la tabla Usuario
@@ -18,3 +88,10 @@ VALUES
 ('juan@gmail.com', '123','Activo'),
 ('maria@gmail.com', '123','Activo'),
 ('carlos@gmail.com', '123','Activo');
+
+-- Insertar datos en la tabla Plan
+INSERT INTO planes (nombre, duracion_meses, entrenamientos_mes, categoria, precio, dias_renovacion)
+VALUES 
+('Plan Básico', 1, 8, 'Básico', 19.99, 30),
+('Plan Premium', 1, 12, 'Premium', 29.99, 30),
+('Plan Anual', 12, 8, 'Básico', 199.99, 365);
