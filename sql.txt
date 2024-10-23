@@ -11,7 +11,7 @@ CREATE TABLE Usuario (
     estado VARCHAR(10) NULL
 );
 
-CREATE TABLE planes (
+CREATE TABLE Plan_tb (
     id INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(255),
     duracion_meses INT,
@@ -21,31 +21,31 @@ CREATE TABLE planes (
     dias_renovacion INT
 );
 
-CREATE TABLE clientes (
+CREATE TABLE Cliente (
     id INT PRIMARY KEY,
     nombre TEXT,
     email TEXT,
     telefono TEXT,
     estado_membresia TEXT,
     plan_id INT,
-    FOREIGN KEY (plan_id) REFERENCES planes(id)
+    FOREIGN KEY (plan_id) REFERENCES Plan_tb(id)
 );
 
-CREATE TABLE sanciones (
+CREATE TABLE Sancion(
     id INT PRIMARY KEY,
     cliente_id INT,
     fecha_inicio DATETIME,
     fecha_fin DATETIME,
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+    FOREIGN KEY (cliente_id) REFERENCES cliente(id)
 );
 
-CREATE TABLE trainers (
+CREATE TABLE Trainer (
     id INT PRIMARY KEY,
     nombre TEXT,
     especialidad TEXT
 );
 
-CREATE TABLE entrenamientos (
+CREATE TABLE Entrenamiento (
     id INT PRIMARY KEY,
     tipo TEXT,
     ubicacion TEXT,
@@ -53,33 +53,33 @@ CREATE TABLE entrenamientos (
     max_participantes INT,
     trainer_id INT,
     fecha DATETIME,
-    FOREIGN KEY (trainer_id) REFERENCES trainers(id)
+    FOREIGN KEY (trainer_id) REFERENCES trainer(id)
 );
 
-CREATE TABLE reservas (
+CREATE TABLE Reserva (
     id INT PRIMARY KEY,
     cliente_id INT,
     entrenamiento_id INT,
     fecha_reserva DATETIME,
     estado TEXT,
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-    FOREIGN KEY (entrenamiento_id) REFERENCES entrenamientos(id)
+    FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+    FOREIGN KEY (entrenamiento_id) REFERENCES entrenamiento(id)
 );
 
-CREATE TABLE asistencias (
+CREATE TABLE Asistencia (
     id INT PRIMARY KEY,
     reserva_id INT,
     asistencia INT,
-    FOREIGN KEY (reserva_id) REFERENCES reservas(id)
+    FOREIGN KEY (reserva_id) REFERENCES reserva(id)
 );
 
-CREATE TABLE reportes (
+CREATE TABLE Reporte (
     id INT PRIMARY KEY,
     tipo TEXT,
     contenido TEXT,
     fecha DATETIME,
     autor_id INT,
-    FOREIGN KEY (autor_id) REFERENCES clientes(id)
+    FOREIGN KEY (autor_id) REFERENCES cliente(id)
 );
 
 -- Insertar datos en la tabla Usuario
@@ -90,8 +90,17 @@ VALUES
 ('carlos@gmail.com', '123','Activo');
 
 -- Insertar datos en la tabla Plan
-INSERT INTO planes (nombre, duracion_meses, entrenamientos_mes, categoria, precio, dias_renovacion)
+INSERT INTO Plan_tb (nombre, duracion_meses, entrenamientos_mes, categoria, precio, dias_renovacion)
 VALUES 
 ('Plan Básico', 1, 8, 'Básico', 19.99, 30),
 ('Plan Premium', 1, 12, 'Premium', 29.99, 30),
 ('Plan Anual', 12, 8, 'Básico', 199.99, 365);
+
+
+-- Insertar datos en la tabla Trainer
+INSERT INTO Trainer (id, nombre, especialidad) VALUES
+(1, 'Juan Pérez', 'Entrenador Personal'),
+(2, 'María López', 'Nutricionista'),
+(3, 'Carlos Sánchez', 'Instructor de Yoga'),
+(4, 'Ana Ramírez', 'Fisioterapeuta'),
+(5, 'Luis Gómez', 'Entrenador de Crossfit');

@@ -50,7 +50,6 @@ public class PlanController {
             // actualiza las propiedades del plan...
             plan.setNombre(planActualizado.getNombre());
             plan.setDuracion_meses(planActualizado.getDuracion_meses());
-            // etc.
             planRepository.save(plan);
         }
         return "redirect:/planes";

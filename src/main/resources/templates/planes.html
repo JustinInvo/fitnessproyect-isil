@@ -37,7 +37,7 @@
    		<div class="card">
    			<div class="card-body">
    				<button class="btn btn-primary mb-4" data-bs-toggle="modal" th:attr="data-bs-target='#crearModal'">Crear</button>
-   				<div class="d-flex flex-row mb-4 justify-content-center" style="gap: 20px;">
+   				<div class="d-flex flex-wrap mb-4 justify-content-center" style="gap: 20px;">
 			      <div th:each="plan : ${planes}" class="card text-center">
 			        <div class="card-header">
 			          <h5 class="card-title" th:text="${plan.nombre}"></h5>
